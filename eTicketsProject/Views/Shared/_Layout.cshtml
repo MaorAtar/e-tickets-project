@@ -37,9 +37,13 @@
                         </li>
                     </ul>
 
-                    <form class="form-check-inline my-2 my-lg-0" asp-controller="Movies" asp-action="Filter" style="padding-right: 25px;">
-                        <input name="searchString" type="text" class="form-control" placeholder="Search for a movie...">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                    <form class="form-check-inline my-2 my-lg-0" asp-controller="Movies" asp-action="Filter">
+                        <div class="input-group">
+                            <input name="searchString" type="text" class="form-control" placeholder="Search for a movie...">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                            </div>
+                        </div>
                     </form>
 
                 </div>
