@@ -18,5 +18,10 @@ namespace eTicketsProject.Controllers
             var allActors = await _service.GetAll();
             return View(allActors);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
