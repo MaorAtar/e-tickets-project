@@ -15,13 +15,13 @@
                             <p class="card-text">
                                 <h5 class="card-title">
                                     @item.Name
-                                    <a class="text-white float-right"><i class="bg-info bi-pencil-square"></i></a>
+                                    <a class="text-white" asp-action="Edit" asp-route-id="@item.Id" style="position: absolute; right: 10px; top: 10px;"><i class="bg-info bi-pencil-square"></i></a>
                                 </h5>
                             </p>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <img src="@item.ImageURL" width="100%" alt="@item.Name"/>
+                        <img src="@item.ImageURL" width="100%" alt="@item.Name" />
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
@@ -30,17 +30,20 @@
                             <p class="card-text"><b>Category: </b>@item.MovieCategory</p>
                             <p class="card-text"><b>Start Date: </b>@item.StartDate.ToString("dd MMM yy")</p>
                             <p class="card-text"><b>End Date: </b>@item.EndDate.ToString("dd MMM yy")</p>
-                            <p class="card-text"><b>Status: </b>
-                                @if(DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                            <p class="card-text">
+                                <b>Status: </b>
+                                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
                                 {
                                     <span class="badge bg-success text-white">AVAILABLE</span>
-                                } else if(DateTime.Now > item.EndDate)
+                                }
+                                else if (DateTime.Now > item.EndDate)
                                 {
                                     <span class="badge bg-danger">EXPIRED</span>
-                                } else
+                                }
+                                else
                                 {
                                     <span class="badge bg-primary">UPCOMING</span>
-                                }    
+                                }
                             </p>
                         </div>
                     </div>
@@ -48,7 +51,8 @@
                         <div class="card-footer">
                             <p>
                                 <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
-                                    <i class="bi bi-eye-fill"></i> Show Details</a>
+                                    <i class="bi bi-eye-fill"></i> Show Details
+                                </a>
                                 <a class="btn btn-success text-white"><i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>
                             </p>
                         </div>
