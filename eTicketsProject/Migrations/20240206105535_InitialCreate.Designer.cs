@@ -12,8 +12,8 @@ using eTicketsProject.Data;
 namespace eTicketsProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240129201308_Initial")]
-    partial class Initial
+    [Migration("20240206105535_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,8 @@ namespace eTicketsProject.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ProfilePictureURL")
                         .IsRequired()
@@ -62,7 +63,7 @@ namespace eTicketsProject.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Actor_Movie");
+                    b.ToTable("Actors_Movies");
                 });
 
             modelBuilder.Entity("eTicketsProject.Models.Cinema", b =>
@@ -101,9 +102,6 @@ namespace eTicketsProject.Migrations
                     b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -128,6 +126,9 @@ namespace eTicketsProject.Migrations
                     b.Property<int>("ProducerId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CinemaId");
@@ -135,6 +136,56 @@ namespace eTicketsProject.Migrations
                     b.HasIndex("ProducerId");
 
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("eTicketsProject.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("eTicketsProject.Models.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amout")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("eTicketsProject.Models.Producer", b =>
@@ -151,7 +202,8 @@ namespace eTicketsProject.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ProfilePictureURL")
                         .IsRequired()
@@ -200,6 +252,25 @@ namespace eTicketsProject.Migrations
                     b.Navigation("Producer");
                 });
 
+            modelBuilder.Entity("eTicketsProject.Models.OrderItem", b =>
+                {
+                    b.HasOne("eTicketsProject.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eTicketsProject.Models.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("eTicketsProject.Models.Actor", b =>
                 {
                     b.Navigation("Actors_Movies");
@@ -213,6 +284,11 @@ namespace eTicketsProject.Migrations
             modelBuilder.Entity("eTicketsProject.Models.Movie", b =>
                 {
                     b.Navigation("Actors_Movies");
+                });
+
+            modelBuilder.Entity("eTicketsProject.Models.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("eTicketsProject.Models.Producer", b =>
