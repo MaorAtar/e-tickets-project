@@ -26,6 +26,7 @@ namespace eTicketsProject.Controllers
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
             if (!ModelState.IsValid) return View(loginVM);
+
             var user = await _userManager.FindByEmailAsync(loginVM.EmailAddress);
             if (user != null)
             {
@@ -51,6 +52,7 @@ namespace eTicketsProject.Controllers
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
             if (!ModelState.IsValid) return View(registerVM);
+
             var user = await _userManager.FindByEmailAsync(registerVM.EmailAddress);
             if (user != null)
             {
