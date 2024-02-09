@@ -1,11 +1,13 @@
 ﻿using eTicketsProject.Data.Cart;
 using eTicketsProject.Data.Services;
 using eTicketsProject.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace eTicketsProject.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly IMoviesService _moviesService;
