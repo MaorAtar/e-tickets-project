@@ -1,11 +1,12 @@
 ﻿using eTicketsProject.Data.Services;
+using eTicketsProject.Data.Static;
 using eTicketsProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eTicketsProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = UserRoles.Admin)]
     public class ProducersController : Controller
     {
         private readonly IProducersService _service;

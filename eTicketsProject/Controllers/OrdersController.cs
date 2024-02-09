@@ -1,5 +1,6 @@
 ﻿using eTicketsProject.Data.Cart;
 using eTicketsProject.Data.Services;
+using eTicketsProject.Data.Static;
 using eTicketsProject.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
