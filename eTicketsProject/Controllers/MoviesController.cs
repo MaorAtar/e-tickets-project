@@ -19,7 +19,7 @@ namespace eTicketsProject.Controllers
 
         [AllowAnonymous]
         public async Task<IActionResult> Index()
-        {   
+        {
             var allMovies = await _service.GetAllAsync(n => n.Cinema);
             return View(allMovies);
         }
@@ -28,9 +28,10 @@ namespace eTicketsProject.Controllers
         public async Task<IActionResult> Filter(string searchString)
         {
             var allMovies = await _service.GetAllAsync(n => n.Cinema);
-            if(!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
-                var filteredResult = allMovies.Where(n => n.Name.Contains(searchString) || n.Description.Contains(searchString)).ToList();
+                var filteredResult = allMovies.Where(n => n.Name.ToLower().Contains(searchString.ToLower()) ||
+                n.Description.ToLower().Contains(searchString.ToLower())).ToList();
                 return View("Index", filteredResult);
             }
             return View("Index", allMovies);
@@ -55,7 +56,7 @@ namespace eTicketsProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(NewMovieVM movie)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 var movieDropdownsData = await _service.GetNewMovieDropdownsValues();
                 ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
@@ -70,7 +71,7 @@ namespace eTicketsProject.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var movieDeatils = await _service.GetMovieByIdAsync(id);
-            if(movieDeatils == null) return View("NotFound");
+            if (movieDeatils == null) return View("NotFound");
             var response = new NewMovieVM()
             {
                 Id = movieDeatils.Id,
